@@ -15,15 +15,6 @@ sales
 menu
 members
 
-What is the total amount each customer spent at the restaurant?
-How many days has each customer visited the restaurant?
-What was the first item from the menu purchased by each customer?
-What is the most purchased item on the menu and how many times was it purchased by all customers?
-Which item was the most popular for each customer?
-Which item was purchased first by the customer after they became a member?
-Which item was purchased just before the customer became a member?
-What is the total items and amount spent for each member before they became a member?
-If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 **Schema (PostgreSQL v13)**
 
     CREATE SCHEMA dannys_diner;
@@ -82,7 +73,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 
 ---
 
-**Query #1**
+**Query #1** What is the total amount each customer spent at the restaurant?
 
     SELECT
       	customer_id,sum(price) as total_sales
@@ -98,7 +89,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | C           | 36          |
 
 ---
-**Query #2**
+**Query #2**How many days has each customer visited the restaurant?
 
     select customer_id,count(distinct(order_date))
     from dannys_diner.sales
@@ -111,7 +102,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | C           | 2     |
 
 ---
-**Query #3**
+**Query #3**What was the first item from the menu purchased by each customer?
 
     with order_sales as
     (
@@ -132,7 +123,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | C           | ramen        |
 
 ---
-**Query #4**
+**Query #4**What is the most purchased item on the menu and how many times was it purchased by all customers?
 
     select(count(product_id) )as most_purchased, product_name
     FROM dannys_diner.menu
@@ -147,7 +138,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | 3              | sushi        |
 
 ---
-**Query #5**
+**Query #5**Which item was the most popular for each customer?
 
     with most_favourite_item as
     (
@@ -172,7 +163,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | A           | ramen        | 3           |
 
 ---
-**Query #6**
+**Query #6**Which item was purchased first by the customer after they became a member?
 
     with member_sales_cte as
     (
@@ -194,7 +185,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | sushi        | 2021-01-11T00:00:00.000Z | B           |
 
 ---
-**Query #7**
+**Query #7**Which item was purchased just before the customer became a member?
 
     with member_sales_cte as
     (
@@ -216,7 +207,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 | curry        | 2021-01-01T00:00:00.000Z | A           |
 
 ---
-**Query #8**
+**Query #8**What is the total items and amount spent for each member before they became a member?
 
     select customer_id,count(distinct(product_id)) as unique_id, sum(price) as total_sales
     from dannys_diner.sales
@@ -232,6 +223,7 @@ If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how
 
 ---
 **Query #9**
+If each $1 spent equates to 10 points and sushi has a 2x points multiplier - how many points would each customer have?
 
     WITH price_points AS
      (
